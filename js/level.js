@@ -21,7 +21,18 @@
           [0,0,1,1,1,1,1,1,1,1,0],
           [0,0,1,1,1,1,1,1,1,1,0],
           [0,0,1,1,1,1,1,1,1,1,0],
-          [0,0,1,1,1,1,1,1,1,1,0]] };
+          [0,0,1,1,1,1,1,1,1,1,0]],
+     2:  [[0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,2,2,2,2,2,2,2,2,2,0],
+          [0,2,2,2,2,2,2,2,2,2,0]],};
 
   var spriteData = {
     'alien1': { sx: 0,  sy: 0,  w: 23, h: 18, cls: Alien, frames: 2 },
@@ -31,7 +42,7 @@
   }
 
   function startGame() {
-    var screen = new GameScreen("Alien Invaders","press space to start",
+    var screen = new GameScreen("Alien Invaders","press enter to start",
                                  function() {
                                      Game.loadBoard(new GameBoard(1));
                                  });
@@ -40,7 +51,7 @@
   }
 
   function endGame() {
-    var screen = new GameScreen("Game Over","(press space to restart)",
+    var screen = new GameScreen("Game Over","(press enter to restart)",
                                  function() {
                                      Game.loadBoard(new GameBoard(1));
                                  });
@@ -49,7 +60,7 @@
 
 
   function winGame() {
-    var screen = new GameScreen("You Win!","(press space to restart)",
+    var screen = new GameScreen("You Win!","(press enter to restart)",
                                  function() {
                                      Game.loadBoard(new GameBoard(1));
                                  });

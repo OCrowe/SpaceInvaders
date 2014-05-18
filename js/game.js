@@ -77,7 +77,7 @@ Alien.prototype.step = function(dt) {
 }
 
 Alien.prototype.fireSometimes = function() {
-      if(Math.random()*100 < 10) {
+      if(Math.random()*100 < 100) {
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
                                       this.y + this.h, 
                                      { dy: 100 });
@@ -107,14 +107,14 @@ Player.prototype.step = function(dt) {
 
   this.reloading--;
 
-  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 3) {
+  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 50) {
     GameAudio.play('fire');
     this.board.addSprite('missile',
                           this.x + this.w/2 - Sprites.map.missile.w/2,
                           this.y-this.h,
                           { dy: -100, player: true });
     this.board.missiles++;
-    this.reloading = 10;
+    this.reloading = 5;
   }
   return true;
 }

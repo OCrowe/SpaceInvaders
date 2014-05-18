@@ -1,5 +1,5 @@
 var Game = new function() {                                                                  
-  var KEY_CODES = { 37:'left', 39:'right', 32 :'fire' };
+  var KEY_CODES = { 37:'left', 39:'right', 13 :'fire' };
   this.keys = {};
 
   this.initialize = function(canvas_dom,level_data,sprite_data,callbacks) {
