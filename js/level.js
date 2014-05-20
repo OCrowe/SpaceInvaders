@@ -22,7 +22,7 @@
           [0,0,1,1,1,1,1,1,1,1,0],
           [0,0,1,1,1,1,1,1,1,1,0],
           [0,0,1,1,1,1,1,1,1,1,0]],
-     2:  [[0,0,0,0,0,0,0,0,0,0,0],
+     3:  [[0,0,0,0,0,0,0,0,0,0,0],
           [0,0,0,0,0,0,0,0,0,0,0],
           [0,2,2,2,2,2,2,2,2,2,0],
           [0,2,2,2,2,2,2,2,2,2,0],
@@ -37,12 +37,13 @@
   var spriteData = {
     'alien1': { sx: 0,  sy: 0,  w: 23, h: 18, cls: Alien, frames: 2 },
     'alien2': { sx: 0,  sy: 18, w: 23, h: 18, cls: Alien, frames: 2 },
-    'player': { sx: 0,  sy: 36, w: 26, h: 17, cls: Player },
+    'player1': { sx: 0,  sy: 36, w: 26, h: 17, cls: Player },
+    'player2': { sx: 27,  sy: 36, w: 26, h: 17, cls: Player },
     'missile': { sx: 0,  sy: 86, w: 3,  h: 14, cls: Missile }
   }
 
   function startGame() {
-    var screen = new GameScreen("Alien Invaders","press enter to start",
+    var screen = new GameScreen("Space Invaders","press enter to start",
                                  function() {
                                      Game.loadBoard(new GameBoard(1));
                                  });
@@ -68,7 +69,7 @@
   }
 
   $(function() {
-    GameAudio.load({ 'fire' : 'media/laser.ogg', 'die' : 'media/explosion.ogg' }, 
+    GameAudio.load({ 'fire1','fire2' : 'media/laser.ogg', 'die' : 'media/explosion.ogg' }, 
                    function() { 
                        Game.initialize("#gameboard", levelData, spriteData,
                                       { "start": startGame,
