@@ -77,91 +77,52 @@ Alien.prototype.step = function(dt) {
 }
 
 Alien.prototype.fireSometimes = function() {
-      if(Math.random()*100 < 100) {
+      if(Math.random()*10 < 100) {
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
                                       this.y + this.h, 
                                      { dy: 100 });
       }
 }
 
-var Player1 = function Player1(opts) { 
+var Player = function Player(opts) { 
   this.reloading = 0;
 }
 
-var Player2 = function Player2(opts) { 
-  this.reloading = 0;
-}
-
-Player1.prototype.draw = function(canvas) {
-   Sprites.draw(canvas,'player1',this.x,this.y);
-}
-
-Player2.prototype.draw = function(canvas) {
-   Sprites.draw(canvas,'player2',this.x,this.y);
+Player.prototype.draw = function(canvas) {
+   Sprites.draw(canvas,'player',this.x,this.y);
 }
 
 
-Player1.prototype.die = function() {
+Player.prototype.die = function() {
   GameAudio.play('die');
   Game.callbacks['die']();
 }
 
-Player2.prototype.die = function() {
-  GameAudio.play('die');
-  Game.callbacks['die']();
-}
-
-
-Player1.prototype.step = function(dt) {
-  if(Game.keys1['left1']) { this.x -= 100 * dt; }
-  if(Game.keys1['right1']) { this.x += 100 * dt; }
+Player.prototype.step = function(dt) {
+  if(Game.keys['left']) { this.x -= 100 * dt; }
+  if(Game.keys['right']) { this.x += 100 * dt; }
 
   if(this.x < 0) this.x = 0;
   if(this.x > Game.width-this.w) this.x = Game.width-this.w;
 
   this.reloading--;
 
-  if(Game.keys1['fire1'] && this.reloading <= 0 && this.board.missiles < 50) {
-    GameAudio.play('fire1');
+  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 50) {
+    GameAudio.play('fire');
     this.board.addSprite('missile',
                           this.x + this.w/2 - Sprites.map.missile.w/2,
                           this.y-this.h,
-                          { dy: -100, player1: true });
+                          { dy: -100, player: true });
     this.board.missiles++;
     this.reloading = 5;
   }
-    
-    Player2.prototype.step = function(dt) {
-  if(Game.keys2['left2']) { this.x -= 100 * dt; }
-  if(Game.keys2['right2']) { this.x += 100 * dt; }
-
-  if(this.x < 0) this.x = 0;
-  if(this.x > Game.width-this.w) this.x = Game.width-this.w;
-
-  this.reloading--;
-
-  if(Game.keys2['fire2'] && this.reloading <= 0 && this.board.missiles < 50) {
-    GameAudio.play('fire2');
-    this.board.addSprite('missile',
-                          this.x + this.w/2 - Sprites.map.missile.w/2,
-                          this.y-this.h,
-                          { dy: -100, player2: true });
-    this.board.missiles++;
-    this.reloading = 5;
-  }
-        
   return true;
 }
 
 
 var Missile = function Missile(opts) {
    this.dy = opts.dy;
-   this.player1 = opts.player1;
-}
-
-var Missile = function Missile(opts) {
-   this.dy = opts.dy;
-   this.player2 = opts.player2;
+   this.player = opts.player;
 }
 
 Missile.prototype.draw = function(canvas) {
@@ -180,13 +141,7 @@ Missile.prototype.step = function(dt) {
 }
 
 Missile.prototype.die = function() {
-  if(this.player1) this.board.missiles--;
-  if(this.board.missiles < 0) this.board.missiles=0;
-   this.board.remove(this);
-}
-
-Missile.prototype.die = function() {
-  if(this.player2) this.board.missiles--;
+  if(this.player) this.board.missiles--;
   if(this.board.missiles < 0) this.board.missiles=0;
    this.board.remove(this);
 }

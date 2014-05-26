@@ -1,8 +1,6 @@
 var Game = new function() {                                                                  
-  var KEY_CODESplayer1 = { 81:'left1', 87:'right1', 67 :'fire1' };
-  this.keys1 = {};
-    var KEY_CODESplayer2 = { 82:'left2', 84:'right2', 66 :'fire2' };
-  this.keys2 = {};
+  var KEY_CODES = { 37:'left', 39:'right', 13 :'fire' };
+  this.keys = {};
 
   this.initialize = function(canvas_dom,level_data,sprite_data,callbacks) {
     this.canvas_elem = $(canvas_dom)[0];
@@ -11,23 +9,11 @@ var Game = new function() {
     this.height= $(this.canvas_elem).attr('height');
 
     $(window).keydown(function(event) {
-      if(KEY_CODESplayer1[event.keyCodeplayer1])
-          Game.keys1[KEY_CODESplayer1[event.keyCodeplayer1]] = true;
+      if(KEY_CODES[event.keyCode]) Game.keys[KEY_CODES[event.keyCode]] = true;
     });
 
     $(window).keyup(function(event) {
-      if(KEY_CODESplayer1[event.keyCodeplayer1])
-          Game.keys1[KEY_CODESplayer1[event.keyCodeplayer1]] = false;
-    });
-      
-        $(window).keydown(function(event) {
-      if(KEY_CODESplayer2[event.keyCodeplayer2])
-          Game.keys2[KEY_CODESplayer2[event.keyCodeplayer2]] = true;
-    });
-
-    $(window).keyup(function(event) {
-      if(KEY_CODESplayer2[event.keyCodeplayer2])
-          Game.keys2[KEY_CODESplayer2[event.keyCodeplayer2]] = false;
+      if(KEY_CODES[event.keyCode]) Game.keys[KEY_CODES[event.keyCode]] = false;
     });
 
     this.level_data = level_data;
@@ -63,13 +49,9 @@ var Sprites = new function() {
 
 var GameScreen = function GameScreen(text,text2,callback) {
   this.step = function(dt) {
-    if(Game.keys1['fire1'] && callback) callback();
+    if(Game.keys['fire'] && callback) callback();
   };
-    
- this.step = function(dt) {
-    if(Game.keys2['fire2'] && callback) callback();
-  };
-    
+
   this.render = function(canvas) {
     canvas.clearRect(0,0,Game.width,Game.height);
     canvas.font = "bold 40px arial";
@@ -145,15 +127,9 @@ var GameBoard = function GameBoard(level_number) {
 
   this.loadLevel = function(level) {
     this.objects = [];
-    this.player1 = this.addSprite('player1', // Sprite
+    this.player = this.addSprite('player', // Sprite
                                  Game.width/2, // X
-                                 Game.height - Sprites.map['player1'].h - 10); // Y
-      
-    this.objects = [];
-    this.player2 = this.addSprite('player2', // Sprite
-                                 Game.width/2 -30, // X
-                                 Game.height - Sprites.map['player2'].h - 10); // Y
-
+                                 Game.height - Sprites.map['player'].h - 10); // Y
 
     var flock = this.add(new AlienFlock());
     for(var y=0,rows=level.length;y<rows;y++) {
