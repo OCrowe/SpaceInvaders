@@ -1,3 +1,4 @@
+
 var Game = new function() {                                                                  
   var KEY_CODES = { 37:'left', 39:'right', 13 :'fire' };
   this.keys = {};
@@ -141,6 +142,8 @@ var GameBoard = function GameBoard(level_number) {
                          alien.h*y,       // Y
                          { flock: flock }); // Options
         }
+
+
       }
     }
   };

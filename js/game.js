@@ -4,6 +4,7 @@ var AlienFlock = function AlienFlock() {
   this.dx = 10; this.dy = 0;
   this.hit = 1; this.lastHit = 0;
   this.speed = 10;
+  
 
   this.draw = function() {};
 
@@ -26,7 +27,7 @@ var AlienFlock = function AlienFlock() {
 
     var max = {}, cnt = 0;
     this.board.iterate(function() {
-      if(this instanceof Alien)  {
+      if(this instanceof AlienBP,AlienYG,AlienBO,AlienRB)  {
         if(!max[this.x] || this.y > max[this.x]) {
           max[this.x] = this.y; 
         }
@@ -42,25 +43,23 @@ var AlienFlock = function AlienFlock() {
 
 }
 
-
-
-var Alien = function Alien(opts) {
+var AlienBP = function AlienBP(opts) {
   this.flock = opts['flock'];
   this.frame = 0;
   this.mx = 0;
 }
 
-Alien.prototype.draw = function(canvas) {
+AlienBP.prototype.draw = function(canvas) {
   Sprites.draw(canvas,this.name,this.x,this.y,this.frame);
 }
 
-Alien.prototype.die = function() {
+AlienBP.prototype.die = function() {
   GameAudio.play('die');
   this.flock.speed += 1;
   this.board.remove(this);
 }
 
-Alien.prototype.step = function(dt) {
+AlienBP.prototype.step = function(dt) {
   this.mx += dt * this.flock.dx;
   this.y += this.flock.dy;
   if(Math.abs(this.mx) > 10) {
@@ -76,8 +75,128 @@ Alien.prototype.step = function(dt) {
   return true;
 }
 
-Alien.prototype.fireSometimes = function() {
-      if(Math.random()*10 < 100) {
+AlienBP.prototype.fireSometimes = function() {
+      if(Math.random()*100 < 10) {
+        this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
+                                      this.y + this.h, 
+                                     { dy: 100 });
+      }
+}
+
+var AlienYG = function AlienYG(opts) {
+  this.flock = opts['flock'];
+  this.frame = 0;
+  this.mx = 0;
+}
+
+AlienYG.prototype.draw = function(canvas) {
+  Sprites.draw(canvas,this.name,this.x,this.y,this.frame);
+}
+
+AlienYG.prototype.die = function() {
+  GameAudio.play('die');
+  this.flock.speed += 1;
+  this.board.remove(this);
+}
+
+AlienYG.prototype.step = function(dt) {
+  this.mx += dt * this.flock.dx;
+  this.y += this.flock.dy;
+  if(Math.abs(this.mx) > 10) {
+    if(this.y == this.flock.max_y[this.x]) {
+      this.fireSometimes();
+    }
+    this.x += this.mx;
+    this.mx = 0;
+    this.frame = (this.frame+1) % 2;
+    if(this.x > Game.width - Sprites.map.alien1.w * 2) this.flock.hit = -1;
+    if(this.x < Sprites.map.alien1.w) this.flock.hit = 1;
+  }
+  return true;
+}
+
+AlienYG.prototype.fireSometimes = function() {
+      if(Math.random()*100 < 35) {
+        this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
+                                      this.y + this.h, 
+                                     { dy: 100 });
+      }
+}
+
+var AlienBO = function AlienBO(opts) {
+  this.flock = opts['flock'];
+  this.frame = 0;
+  this.mx = 0;
+}
+
+AlienBO.prototype.draw = function(canvas) {
+  Sprites.draw(canvas,this.name,this.x,this.y,this.frame);
+}
+
+AlienBO.prototype.die = function() {
+  GameAudio.play('die');
+  this.flock.speed += 1;
+  this.board.remove(this);
+}
+
+AlienBO.prototype.step = function(dt) {
+  this.mx += dt * this.flock.dx;
+  this.y += this.flock.dy;
+  if(Math.abs(this.mx) > 10) {
+    if(this.y == this.flock.max_y[this.x]) {
+      this.fireSometimes();
+    }
+    this.x += this.mx;
+    this.mx = 0;
+    this.frame = (this.frame+1) % 2;
+    if(this.x > Game.width - Sprites.map.alien1.w * 2) this.flock.hit = -1;
+    if(this.x < Sprites.map.alien1.w) this.flock.hit = 1;
+  }
+  return true;
+}
+
+AlienBO.prototype.fireSometimes = function() {
+      if(Math.random()*100 < 65) {
+        this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
+                                      this.y + this.h, 
+                                     { dy: 100 });
+      }
+}
+
+var AlienRB = function Alien(opts) {
+  this.flock = opts['flock'];
+  this.frame = 0;
+  this.mx = 0;
+}
+
+AlienRB.prototype.draw = function(canvas) {
+  Sprites.draw(canvas,this.name,this.x,this.y,this.frame);
+}
+
+AlienRB.prototype.die = function() {
+  GameAudio.play('die');
+  this.flock.speed += 1;
+  this.board.remove(this);
+}
+
+AlienRB.prototype.step = function(dt) {
+  this.mx += dt * this.flock.dx;
+  this.y += this.flock.dy;
+  if(Math.abs(this.mx) > 10) {
+    if(this.y == this.flock.max_y[this.x]) {
+      this.fireSometimes();
+    }
+    this.x += this.mx;
+    this.mx = 0;
+    this.frame = (this.frame+1) % 2;
+    if(this.x > Game.width - Sprites.map.alien1.w * 2) this.flock.hit = -1;
+    if(this.x < Sprites.map.alien1.w) this.flock.hit = 1;
+  }
+  return true;
+}
+
+AlienRB.prototype.fireSometimes = function() {
+      if(Math.random()*100 < 90) {
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
                                       this.y + this.h, 
                                      { dy: 100 });
