@@ -27,9 +27,31 @@ var AlienFlock = function AlienFlock() {
 
     var max = {}, cnt = 0;
     this.board.iterate(function() {
-      if(this instanceof AlienBP,AlienYG,AlienBO,AlienRB)  {
+        
+      if(this instanceof AlienBP)  {
         if(!max[this.x] || this.y > max[this.x]) {
           max[this.x] = this.y; 
+        }
+        cnt++;
+      } 
+        
+        if(this instanceof AlienBO)  {
+            if(!max[this.x] || this.y > max[this.x]) {
+                max[this.x] = this.y; 
+        }
+        cnt++;
+      } 
+        
+        if(this instanceof AlienYG)  {
+            if(!max[this.x] || this.y > max[this.x]) {
+                max[this.x] = this.y; 
+        }
+        cnt++;
+      } 
+        
+        if(this instanceof AlienRB)  {
+            if(!max[this.x] || this.y > max[this.x]) {
+                max[this.x] = this.y; 
         }
         cnt++;
       } 
