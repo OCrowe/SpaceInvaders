@@ -1,6 +1,6 @@
-
 var Game = new function() {                                                                  
-  var KEY_CODES = { 37:'left', 39:'right', 13 :'fire' };
+  var KEY_CODES = { 81:'left1', 87:'right1', 82:'left2', 84:'right2', 
+                    73:'left3', 85:'right3', 79:'left4', 80:'right4', 13 :'fire' };
   this.keys = {};
 
   this.initialize = function(canvas_dom,level_data,sprite_data,callbacks) {
@@ -129,8 +129,10 @@ var GameBoard = function GameBoard(level_number) {
   this.loadLevel = function(level) {
     this.objects = [];
     this.player = this.addSprite('player', // Sprite
-                                 Game.width/2, // X
+                                 Game.width/2-150, // X
                                  Game.height - Sprites.map['player'].h - 10); // Y
+
+    
 
     var flock = this.add(new AlienFlock());
     for(var y=0,rows=level.length;y<rows;y++) {
@@ -142,10 +144,20 @@ var GameBoard = function GameBoard(level_number) {
                          alien.h*y,       // Y
                          { flock: flock }); // Options
         }
-
-
       }
     }
+
+    this.playerA = this.addSprite('playerA', // Sprite
+                                 Game.width/2-75, // X
+                                 Game.height - Sprites.map['playerA'].h - 10); // Y
+
+    this.playerB = this.addSprite('playerB', // Sprite
+                                 Game.width/2+75, // X
+                                 Game.height - Sprites.map['playerB'].h - 10); // Y
+
+    this.playerC = this.addSprite('playerC', // Sprite
+                                 Game.width/2+150, // X
+                                 Game.height - Sprites.map['playerC'].h - 10); // Y
   };
 
   this.nextLevel = function() { 
@@ -160,12 +172,12 @@ var GameAudio = new function() {
   this.loading_sounds = 0;
   this.sounds = {};
 
-  var channel_max = 10;		
+  var channel_max = 10;   
   audio_channels = new Array();
-  for (a=0;a<channel_max;a++) {	
+  for (a=0;a<channel_max;a++) { 
     audio_channels[a] = new Array();
     audio_channels[a]['channel'] = new Audio(); 
-    audio_channels[a]['finished'] = -1;	
+    audio_channels[a]['finished'] = -1; 
   }
 
   this.load = function(files,callback) {
@@ -192,7 +204,7 @@ var GameAudio = new function() {
   this.play = function(s) {
     for (a=0;a<audio_channels.length;a++) {
       thistime = new Date();
-      if (audio_channels[a]['finished'] < thistime.getTime()) {	
+      if (audio_channels[a]['finished'] < thistime.getTime()) { 
         audio_channels[a]['finished'] = thistime.getTime() + this.sounds[s].duration*1000;
         audio_channels[a]['channel'].src = this.sounds[s].src;
         audio_channels[a]['channel'].load();

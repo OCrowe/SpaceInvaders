@@ -1,4 +1,3 @@
-
 var AlienFlock = function AlienFlock() {
   this.invulnrable = true;
   this.dx = 10; this.dy = 0;
@@ -225,6 +224,10 @@ AlienRB.prototype.fireSometimes = function() {
       }
 }
 
+
+
+
+
 var Player = function Player(opts) { 
   this.reloading = 0;
 }
@@ -240,15 +243,15 @@ Player.prototype.die = function() {
 }
 
 Player.prototype.step = function(dt) {
-  if(Game.keys['left']) { this.x -= 100 * dt; }
-  if(Game.keys['right']) { this.x += 100 * dt; }
+  if(Game.keys['left1']) { this.x -= 100 * dt; }
+  if(Game.keys['right1']) { this.x += 100 * dt; }
 
   if(this.x < 0) this.x = 0;
   if(this.x > Game.width-this.w) this.x = Game.width-this.w;
 
   this.reloading--;
 
-  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 50) {
+  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 500) {
     GameAudio.play('fire');
     this.board.addSprite('missile',
                           this.x + this.w/2 - Sprites.map.missile.w/2,
@@ -260,7 +263,106 @@ Player.prototype.step = function(dt) {
   return true;
 }
 
+var playerA = function playerA(opts) {
+  this.reloading = 0;
+}
 
+playerA.prototype.draw = function(canvas) {
+  Sprites.draw(canvas,'playerA',this.x,this.y);
+}
+
+playerA.prototype.die = function() {
+  GameAudio.play('die');
+  Game.callbacks['die']();
+}
+
+playerA.prototype.step = function(dt) {
+  if(Game.keys['left2']) { this.x -= 100 * dt; }
+  if(Game.keys['right2']) { this.x += 100 * dt; }
+
+  if(this.x < 0) this.x = 0;
+  if(this.x > Game.width-this.w) this.x = Game.width-this.w;
+
+  this.reloading--;
+
+  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 500) {
+    GameAudio.play('fire');
+    this.board.addSprite('missile',
+                          this.x + this.w/2 - Sprites.map.missile.w/2,
+                          this.y-this.h,
+                          { dy: -100, player: true });
+    this.board.missiles++;
+    this.reloading = 5;
+  }
+  return true;
+}
+
+var playerB = function playerB(opts) {
+  this.reloading = 0;
+}
+
+playerB.prototype.draw = function(canvas) {
+  Sprites.draw(canvas,'playerB',this.x,this.y);
+}
+
+playerB.prototype.die = function() {
+  GameAudio.play('die');
+  Game.callbacks['die']();
+}
+
+playerB.prototype.step = function(dt) {
+  if(Game.keys['left3']) { this.x -= 100 * dt; }
+  if(Game.keys['right3']) { this.x += 100 * dt; }
+
+  if(this.x < 0) this.x = 0;
+  if(this.x > Game.width-this.w) this.x = Game.width-this.w;
+
+  this.reloading--;
+
+  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 500) {
+    GameAudio.play('fire');
+    this.board.addSprite('missile',
+                          this.x + this.w/2 - Sprites.map.missile.w/2,
+                          this.y-this.h,
+                          { dy: -100, player: true });
+    this.board.missiles++;
+    this.reloading = 5;
+  }
+  return true;
+}
+var playerC = function playerC(opts) {
+  this.reloading = 0;
+}
+
+playerC.prototype.draw = function(canvas) {
+  Sprites.draw(canvas,'playerC',this.x,this.y);
+}
+
+playerC.prototype.die = function() {
+  GameAudio.play('die');
+  Game.callbacks['die']();
+}
+
+playerC.prototype.step = function(dt) {
+  if(Game.keys['left4']) { this.x -= 100 * dt; }
+  if(Game.keys['right4']) { this.x += 100 * dt; }
+
+  if(this.x < 0) this.x = 0;
+  if(this.x > Game.width-this.w) this.x = Game.width-this.w;
+
+  this.reloading--;
+
+  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 500) {
+    GameAudio.play('fire');
+    this.board.addSprite('missile',
+                          this.x + this.w/2 - Sprites.map.missile.w/2,
+                          this.y-this.h,
+                          { dy: -100, player: true });
+    this.board.missiles++;
+    this.reloading = 5;
+  }
+  return true;
+}
 var Missile = function Missile(opts) {
    this.dy = opts.dy;
    this.player = opts.player;
@@ -283,6 +385,24 @@ Missile.prototype.step = function(dt) {
 
 Missile.prototype.die = function() {
   if(this.player) this.board.missiles--;
+  if(this.board.missiles < 0) this.board.missiles=0;
+   this.board.remove(this);
+}
+
+Missile.prototype.die = function() {
+  if(this.playerA) this.board.missiles--;
+  if(this.board.missiles < 0) this.board.missiles=0;
+   this.board.remove(this);
+}
+
+Missile.prototype.die = function() {
+  if(this.playerB) this.board.missiles--;
+  if(this.board.missiles < 0) this.board.missiles=0;
+   this.board.remove(this);
+}
+
+Missile.prototype.die = function() {
+  if(this.playerC) this.board.missiles--;
   if(this.board.missiles < 0) this.board.missiles=0;
    this.board.remove(this);
 }
