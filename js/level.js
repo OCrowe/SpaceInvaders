@@ -66,6 +66,7 @@
     'alien4': { sx: 0,  sy: 54, w: 23, h: 18, cls: AlienRB, frames: 2 },
     'playerA': { sx: 0,  sy: 72, w: 26, h: 16, cls: playerA },
     'playerB': { sx: 27,  sy: 72, w: 26, h: 16, cls: playerB },
+    'missileA': { sx: 0,  sy: 86, w: 3,  h: 13, cls: Missile },
     'missile': { sx: 0,  sy: 86, w: 3,  h: 13, cls: Missile }
   }
 

@@ -251,7 +251,7 @@ playerA.prototype.step = function(dt) {
 
   this.reloading--;
 
-  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 500) {
+  if(Game.keys['fire1'] && this.reloading <= 0 && this.board.missiles < 500) {
     GameAudio.play('fire');
     this.board.addSprite('missile',
                           this.x + this.w/2 - Sprites.map.missile.w/2,
@@ -285,7 +285,7 @@ playerB.prototype.step = function(dt) {
 
   this.reloading--;
 
-  if(Game.keys['fire'] && this.reloading <= 0 && this.board.missiles < 500) {
+  if(Game.keys['fire2'] && this.reloading <= 0 && this.board.missiles < 500) {
     GameAudio.play('fire');
     this.board.addSprite('missile',
                           this.x + this.w/2 - Sprites.map.missile.w/2,
