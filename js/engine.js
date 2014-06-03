@@ -1,6 +1,5 @@
 var Game = new function() {                                                                  
-  var KEY_CODES = { 81:'left1', 87:'right1', 82:'left2', 84:'right2', 
-                    73:'left3', 85:'right3', 79:'left4', 80:'right4', 13 :'fire' };
+  var KEY_CODES = { 81:'left1', 87:'right1', 79:'left2', 80:'right2', 71: 'fire', 13 :'startGame' };
   this.keys = {};
 
   this.initialize = function(canvas_dom,level_data,sprite_data,callbacks) {
@@ -50,7 +49,7 @@ var Sprites = new function() {
 
 var GameScreen = function GameScreen(text,text2,callback) {
   this.step = function(dt) {
-    if(Game.keys['fire'] && callback) callback();
+    if(Game.keys['startGame'] && callback) callback();
   };
 
   this.render = function(canvas) {
@@ -128,9 +127,9 @@ var GameBoard = function GameBoard(level_number) {
 
   this.loadLevel = function(level) {
     this.objects = [];
-    this.player = this.addSprite('player', // Sprite
-                                 Game.width/2-150, // X
-                                 Game.height - Sprites.map['player'].h - 10); // Y
+    this.playerA = this.addSprite('playerA', // Sprite
+                                 Game.width/2-50, // X
+                                 Game.height - Sprites.map['playerA'].h - 10); // Y
 
     
 
@@ -147,17 +146,10 @@ var GameBoard = function GameBoard(level_number) {
       }
     }
 
-    this.playerA = this.addSprite('playerA', // Sprite
-                                 Game.width/2-75, // X
-                                 Game.height - Sprites.map['playerA'].h - 10); // Y
-
     this.playerB = this.addSprite('playerB', // Sprite
-                                 Game.width/2+75, // X
+                                 Game.width/2+50, // X
                                  Game.height - Sprites.map['playerB'].h - 10); // Y
 
-    this.playerC = this.addSprite('playerC', // Sprite
-                                 Game.width/2+150, // X
-                                 Game.height - Sprites.map['playerC'].h - 10); // Y
   };
 
   this.nextLevel = function() { 

@@ -64,10 +64,8 @@
     'alien2': { sx: 0,  sy: 18, w: 23, h: 18, cls: AlienYG, frames: 2 },
     'alien3': { sx: 0,  sy: 36, w: 23, h: 18, cls: AlienBO, frames: 2 },
     'alien4': { sx: 0,  sy: 54, w: 23, h: 18, cls: AlienRB, frames: 2 },
-    'player': { sx: 0,  sy: 72, w: 26, h: 16, cls: Player },
-    'playerA': { sx: 27,  sy: 72, w: 26, h: 16, cls: playerA },
-    'playerB': { sx: 55,  sy: 72, w: 26, h: 16, cls: playerB },
-    'playerC': { sx: 82,  sy: 72, w: 26, h: 16, cls: playerC },
+    'playerA': { sx: 0,  sy: 72, w: 26, h: 16, cls: playerA },
+    'playerB': { sx: 27,  sy: 72, w: 26, h: 16, cls: playerB },
     'missile': { sx: 0,  sy: 86, w: 3,  h: 13, cls: Missile }
   }
 
