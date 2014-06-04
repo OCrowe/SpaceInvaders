@@ -1,4 +1,5 @@
-var Game = new function() {                                                                  
+// ---------------------- Gamekeys ---------------------- \\
+var Game = new function() {    // ----- controller buttons                                                             
   var KEY_CODES = { 65:'left1', 68:'right1', 37:'left2', 39:'right2', 38: 'fire2', 87: 'fire1', 13 :'startGame' };
   this.keys = {};
 
@@ -8,7 +9,7 @@ var Game = new function() {
     this.width = $(this.canvas_elem).attr('width');
     this.height= $(this.canvas_elem).attr('height');
 
-    $(window).keydown(function(event) {
+    $(window).keydown(function(event) {  //---- key down and up events. Making sure key presses are heard
       if(KEY_CODES[event.keyCode]) Game.keys[KEY_CODES[event.keyCode]] = true;
     });
 
@@ -23,17 +24,19 @@ var Game = new function() {
 
   this.loadBoard = function(board) { Game.board = board; };
 
-  this.loop = function() { 
+  this.loop = function() { //----- game speed
     Game.board.step(30/1000); 
     Game.board.render(Game.canvas);
     setTimeout(Game.loop,30);
   };
 };
 
+//--------------------- Sprite functions ---------------------\\
+
 var Sprites = new function() {
   this.map = { }; 
 
-  this.load = function(sprite_data,callback) { 
+  this.load = function(sprite_data,callback) { //--- load sptites onto teh canvas
     this.map = sprite_data;
     this.image = new Image();
     this.image.onload = callback;
@@ -47,7 +50,7 @@ var Sprites = new function() {
   };
 }
 
-var GameScreen = function GameScreen(text,text2,callback) {
+var GameScreen = function GameScreen(text,text2,text3,text4,callback) { //--- titles
   this.step = function(dt) {
     if(Game.keys['startGame'] && callback) callback();
   };
@@ -55,16 +58,20 @@ var GameScreen = function GameScreen(text,text2,callback) {
   this.render = function(canvas) {
     canvas.clearRect(0,0,Game.width,Game.height);
     canvas.font = "bold 40px arial";
-    var measure = canvas.measureText(text);  
+    var measure = canvas.measureText(text);  // ---- function to let text appear on the start screen
     canvas.fillStyle = "#FFFFFF";
     canvas.fillText(text,Game.width/2 - measure.width/2,Game.height/2);
     canvas.font = "bold 20px arial";
     var measure2 = canvas.measureText(text2);
     canvas.fillText(text2,Game.width/2 - measure2.width/2,Game.height/2 + 40);
+    var measure3 = canvas.measureText(text3);
+    canvas.fillText(text3,Game.width/2 - measure3.width/2,Game.height/2 + 60);
+    var measure4 = canvas.measureText(text4);
+    canvas.fillText(text4,Game.width/2 - measure4.width/2,Game.height/2 + 80);
   };
 };
 
-var GameBoard = function GameBoard(level_number) {
+var GameBoard = function GameBoard(level_number) { //----- level number
   this.removed_objs = [];
   this.missiles = 0;
   this.level = level_number;
@@ -113,7 +120,7 @@ var GameBoard = function GameBoard(level_number) {
     this.iterate(function() { this.draw(canvas); });
   };
 
-  this.collision = function(o1,o2) {
+  this.collision = function(o1,o2) { //---- collision detector
     return !((o1.y+o1.h-1<o2.y) || (o1.y>o2.y+o2.h-1) ||
              (o1.x+o1.w-1<o2.x) || (o1.x>o2.x+o2.w-1));
   };
@@ -125,7 +132,7 @@ var GameBoard = function GameBoard(level_number) {
     });
   };
 
-  this.loadLevel = function(level) {
+  this.loadLevel = function(level) { //---- load sprite emelents of the gameboard. Inculding starting locations
     this.objects = [];
     this.playerA = this.addSprite('playerA', // Sprite
                                  Game.width/2-50, // X
@@ -152,12 +159,14 @@ var GameBoard = function GameBoard(level_number) {
 
   };
 
-  this.nextLevel = function() { 
+  this.nextLevel = function() { // ---- load next level
     return Game.level_data[level_number + 1] ? (level_number + 1) : false 
   };
  
   this.loadLevel(Game.level_data[level_number]);
 };
+
+// ---------------------- Game Audio ---------------------- \\
 
 var GameAudio = new function() {
   this.load_queue = [];

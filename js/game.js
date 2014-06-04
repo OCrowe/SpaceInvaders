@@ -1,4 +1,5 @@
-var AlienFlock = function AlienFlock() {
+// -------------------------- Alien Game Stuff -------------------------- \\
+var AlienFlock = function AlienFlock() { // --- Alien Flock data --- \\
   this.invulnrable = true;
   this.dx = 10; this.dy = 0;
   this.hit = 1; this.lastHit = 0;
@@ -27,7 +28,7 @@ var AlienFlock = function AlienFlock() {
     var max = {}, cnt = 0;
     this.board.iterate(function() {
         
-      if(this instanceof AlienBP)  {
+      if(this instanceof AlienBP)  {		// Lets the drawn aliens move and fire. Multipule ones so aliens can have different fire rates
         if(!max[this.x] || this.y > max[this.x]) {
           max[this.x] = this.y; 
         }
@@ -64,23 +65,25 @@ var AlienFlock = function AlienFlock() {
 
 }
 
+// --------------------------- Alien functions ---------------------------  \\
+
 var AlienBP = function AlienBP(opts) {
   this.flock = opts['flock'];
   this.frame = 0;
   this.mx = 0;
 }
 
-AlienBP.prototype.draw = function(canvas) {
+AlienBP.prototype.draw = function(canvas) { // ----- Draw aliens 
   Sprites.draw(canvas,this.name,this.x,this.y,this.frame);
 }
 
-AlienBP.prototype.die = function() {
+AlienBP.prototype.die = function() { // ---- Alien die function 
   GameAudio.play('die');
   this.flock.speed += 1;
   this.board.remove(this);
 }
 
-AlienBP.prototype.step = function(dt) {
+AlienBP.prototype.step = function(dt) { // --- Alien movement 
   this.mx += dt * this.flock.dx;
   this.y += this.flock.dy;
   if(Math.abs(this.mx) > 10) {
@@ -96,7 +99,7 @@ AlienBP.prototype.step = function(dt) {
   return true;
 }
 
-AlienBP.prototype.fireSometimes = function() {
+AlienBP.prototype.fireSometimes = function() { // --- Alien fire function. Different for ach alien class.
       if(Math.random()*100 < 10) {
         this.board.addSprite('missile',this.x + this.w/2 - Sprites.map.missile.w/2,
                                       this.y + this.h, 
@@ -224,25 +227,23 @@ AlienRB.prototype.fireSometimes = function() {
       }
 }
 
-
-
-
+// ---------------------- Player Functions ---------------------- \\
 
 var playerA = function playerA(opts) { 
   this.reloading = 0;
 }
 
-playerA.prototype.draw = function(canvas) {
+playerA.prototype.draw = function(canvas) { // ------ Drawing player to scene
    Sprites.draw(canvas,'playerA',this.x,this.y);
 }
 
 
-playerA.prototype.die = function() {
+playerA.prototype.die = function() { //------ Player die function 
   GameAudio.play('die');
   Game.callbacks['die']();
 }
 
-playerA.prototype.step = function(dt) {
+playerA.prototype.step = function(dt) {   // ---- player (movement and fire) control functions
   if(Game.keys['left1']) { this.x -= 100 * dt; }
   if(Game.keys['right1']) { this.x += 100 * dt; }
 
@@ -251,7 +252,7 @@ playerA.prototype.step = function(dt) {
 
   this.reloading--;
 
-  if(Game.keys['fire1'] && this.reloading <= 0 && this.board.missiles < 500) {
+  if(Game.keys['fire1'] && this.reloading <= 0 && this.board.missiles < 100) { //----- ammount of missles player can fire
     GameAudio.play('fire');
     this.board.addSprite('missile',
                           this.x + this.w/2 - Sprites.map.missile.w/2,
@@ -285,7 +286,7 @@ playerB.prototype.step = function(dt) {
 
   this.reloading--;
 
-  if(Game.keys['fire2'] && this.reloading <= 0 && this.board.missiles < 500) {
+  if(Game.keys['fire2'] && this.reloading <= 0 && this.board.missiles < 100) {
     GameAudio.play('fire');
     this.board.addSprite('missile',
                           this.x + this.w/2 - Sprites.map.missile.w/2,
@@ -297,6 +298,7 @@ playerB.prototype.step = function(dt) {
   return true;
 }
 
+// --------------------- Missle functions --------------------- \\
 
 var Missile = function Missile(opts) {
    this.dy = opts.dy;
@@ -308,11 +310,11 @@ var Missile = function Missile(opts) {
    this.playerB = opts.playerB;
 }
 
-Missile.prototype.draw = function(canvas) {
+Missile.prototype.draw = function(canvas) { // ----- Draw missles to canvas
    Sprites.draw(canvas,'missile',this.x,this.y);
 }
 
-Missile.prototype.step = function(dt) {
+Missile.prototype.step = function(dt) { // ------ missile colliding and destorying player or alien
    this.y += this.dy * dt;
 
    var enemy = this.board.collide(this);
@@ -323,7 +325,7 @@ Missile.prototype.step = function(dt) {
    return (this.y < 0 || this.y > Game.height) ? false : true;
 }
 
-Missile.prototype.die = function() {
+Missile.prototype.die = function() { // ----- missile being destoryed
   if(this.playerA) this.board.missiles--;
   if(this.board.missiles < 0) this.board.missiles=0;
    this.board.remove(this);
